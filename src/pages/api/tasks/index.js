@@ -17,5 +17,14 @@ export default async(req,res)=>{
             } catch (err) {
                 return res.status(400).json({msg:err.message});
             }
+            case "POST":
+                try {
+                    const newTask = new Task(body);
+                    const savedTask = await newTask.save();
+                    await runMiddleware(req,res,morgan);
+                    return res.status(200).json({savedTask});
+                } catch (err) {
+                    return res.status(400).json({msg:err.message});
+                }
     }
 };
